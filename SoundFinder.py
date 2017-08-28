@@ -1,6 +1,8 @@
-import urllib.request
-import urllib.parse
+# import urllib.request
+# import urllib.parse
+import urllib
 import re
+from bs4 import BeautifulSoup
 
 def reply_sound(bot, update, args):
     """Adds a job to the queue"""
@@ -37,3 +39,20 @@ def sound_finder(term):
             print('audio link: ', final_url)
             final_file = opener.open(final_url)
             return final_file
+
+
+'''this function returns a list with a maximum of 5 sounds,
+ each item contain a sound name and their url address'''
+
+def sound_finder2(term):
+    term = '+'.join(term.split())
+    url = 'https://www.myinstants.com/search/?name=%s' % term
+    page = BeautifulSoup(urllib.request.urlopen(url), 'html.parser')
+    instants = page.find_all('div', attrs={'class': 'instant'}, limit=5)
+    instant_list = []
+    for i in instants:
+        regex = re.compile("play\('(.*?)'\)")
+        address = ('https://www.myinstants.com' + str(regex.search(str(i)).group(1)))
+        title = i.find('a').get_text()
+        instant_list.append([title, address])
+    return instant_list
