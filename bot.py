@@ -1,5 +1,6 @@
 # Main bot script goes here.
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from BasicComands import *
 import SoundFinder
 import logging
 
@@ -9,28 +10,6 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 logger = logging.getLogger(__name__)
-
-
-# Define a few command handlers. These usually take the two arguments bot and
-# update. Error handlers also receive the raised TelegramError object in error.
-def alarm(bot, job):
-    """Function to send the alarm message"""
-    bot.send_message(job.context, text='Beep!')
-
-def start(bot, update):
-    update.message.reply_text('Hi!')
-
-
-def help(bot, update):
-    update.message.reply_text('Help!')
-
-
-def echo(bot, update):
-    update.message.reply_text(update.message.text)
-
-
-def error(bot, update, error):
-    logger.warn('Update "%s" caused error "%s"' % (update, error))
 
 
 def main():
@@ -43,7 +22,7 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
-    dp.add_handler(CommandHandler("sound", SoundFinder.reply_sound, pass_args=True))
+    dp.add_handler(CommandHandler("sound" or "", SoundFinder.reply_sound, pass_args=True))
 
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, echo))
