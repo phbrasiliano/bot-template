@@ -5,17 +5,17 @@ import re
 from bs4 import BeautifulSoup
 
 def reply_sound(bot, update, args):
-    """Adds a job to the queue"""
     chat_id = update.message.chat_id
     try:
         term = str(' '.join(args))
         if term != "":
-            sound = sound_finder(term)
+            sound_list = sound_finder(term)
         else:
-            sound = False
-
-        if sound:
-            update.message.reply_audio(sound, title="your sound", quote=True)
+            raise ValueError
+        if len(sound_list) != 0:
+            sound_name, sound_url = sound_list[0]
+            sound = urllib.request.urlopen(sound_url)
+            update.message.reply_audio(sound, title=sound_name, quote=True)
         else:
             update.message.reply_text("Não encontrei nada %s" % ("relacionado a " + term))
     except (IndexError, ValueError):
