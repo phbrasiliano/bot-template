@@ -22,7 +22,7 @@ def reply_sound(bot, update, args):
         update.message.reply_text('Use da seguinte forma: /sound "termo a ser pesquisado"')
 
 
-def sound_finder(term):
+def sound_finder_old(term):
     class AppURLopener(urllib.request.FancyURLopener):
         version = "Mozilla/5.0"
     term = urllib.parse.quote(term)
@@ -42,9 +42,9 @@ def sound_finder(term):
 
 
 '''this function returns a list with a maximum of 5 sounds,
- each item contain a sound name and their url address'''
+ each item contain a tuple with a sound name and their url address'''
 
-def sound_finder2(term):
+def sound_finder(term):
     term = '+'.join(term.split())
     url = 'https://www.myinstants.com/search/?name=%s' % term
     page = BeautifulSoup(urllib.request.urlopen(url), 'html.parser')
