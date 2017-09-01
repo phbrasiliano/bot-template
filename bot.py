@@ -1,6 +1,6 @@
 # Main bot script goes here.
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from BasicComands import *
+from BasicCommands import *
 import SoundFinder
 import logging
 
